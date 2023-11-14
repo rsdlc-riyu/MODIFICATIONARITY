@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chic Web App</title>
+    <link rel="icon" href="{{ url_for('static', filename=' chic_logo.png', _external=True) }}" type="image/png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Coiny&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>    
+    
+    
+
+    <style>
+    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+
+    </style>
+    </head>
+<body>
+  <a id="backtotopbutton"></a>
+
+  <nav class="navbar navbar-expand-custom navbar-mainbg">
+    <div class="navbar-brand-container">
+      <img class="logo" style="margin-right: 3px;" src="{{ url_for('static', filename='chic_logo.png', _external=True) }}" alt="Logo">
+      <a class="navbar-brand" href="#">Automated Chicken Distress Detector</a>
+    </div>    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <div class="hori-selector">
+          <div class="left"></div>
+          <div class="right"></div>
+        </div>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);"><i class="fa fa-dashboard"></i>Dashboard</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="javascript:void(0);"><i class="fa fa-list"></i>History Logs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);"><i class="fa fa-calendar"></i>Calendar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);"><i class="fa fa-info"></i>About</a>
+        </li>
+        <span class="w3-bar-item w3-right">
+          <label class="switch" style="display: inline-block; vertical-align: middle; margin-bottom: 10px;">
+              <input type="checkbox" id="startAudioButton">
+              <span class="slider round"></span>
+          </label>
+          </span>
+      </ul>
+    </div>
+  </nav>
+
+  <script>
+    // ---------Responsive-navbar-active-animation-----------
+function test() {
+var tabsNewAnim = $("#navbarSupportedContent");
+var selectorNewAnim = $("#navbarSupportedContent").find("li").length;
+var activeItemNewAnim = tabsNewAnim.find(".active");
+var activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
+var activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
+var itemPosNewAnimTop = activeItemNewAnim.position();
+var itemPosNewAnimLeft = activeItemNewAnim.position();
+$(".hori-selector").css({
+top: itemPosNewAnimTop.top + "px",
+left: itemPosNewAnimLeft.left + "px",
+height: activeWidthNewAnimHeight + "px",
+width: activeWidthNewAnimWidth + "px"
+});
+$("#navbarSupportedContent").on("click", "li", function (e) {
+$("#navbarSupportedContent ul li").removeClass("active");
+$(this).addClass("active");
+var activeWidthNewAnimHeight = $(this).innerHeight();
+var activeWidthNewAnimWidth = $(this).innerWidth();
+var itemPosNewAnimTop = $(this).position();
+var itemPosNewAnimLeft = $(this).position();
+$(".hori-selector").css({
+top: itemPosNewAnimTop.top + "px",
+left: itemPosNewAnimLeft.left + "px",
+height: activeWidthNewAnimHeight + "px",
+width: activeWidthNewAnimWidth + "px"
+});
+});
+}
+$(document).ready(function () {
+setTimeout(function () {
+test();
+});
+});
+$(window).on("resize", function () {
+setTimeout(function () {
+test();
+}, 500);
+});
+$(".navbar-toggler").click(function () {
+$(".navbar-collapse").slideToggle(300);
+setTimeout(function () {
+test();
+});
+});
+
+// --------------add active class-on another-page move----------
+jQuery(document).ready(function ($) {
+// Get current path and find target link
+var path = window.location.pathname.split("/").pop();
+
+// Account for home page with empty path
+if (path == "") {
+path = "index.html";
+}
+
+var target = $('#navbarSupportedContent ul li a[href="' + path + '"]');
+// Add active class to target link
+target.parent().addClass("active");
+});
+
+// Add active class on another page linked
+// ==========================================
+// $(window).on('load',function () {
+//     var current = location.pathname;
+//     console.log(current);
+//     $('#navbarSupportedContent ul li a').each(function(){
+//         var $this = $(this);
+//         // if the current path is like this link, make it active
+//         if($this.attr('href').indexOf(current) !== -1){
+//             $this.parent().addClass('active');
+//             $this.parents('.menu-submenu').addClass('show-dropdown');
+//             $this.parents('.menu-submenu').parent().addClass('active');
+//         }else{
+//             $this.parent().removeClass('active');
+//         }
+//     })
+// });
+  </script>
+
+<div class="w3-container">
+    <div class="elevated-container audio-analysis-container">
+      <div class="elevated-container audio-analysis-sub-subcontainer">
+          <h3 style="color: rgba(0, 0, 0, 0.767); font-family: 'San Francisco', sans-serif; font-weight: bold; margin-bottom: 5px;">History Logs</h3>
+          <hr>
+          <div class="search-bar">
+            <form class="d-flex" id="searchForm">
+              <input class="form-control me-2 rounded-pill" type="search" name="query" placeholder="Search" aria-label="Search" value="{{ search_query }}">
+              <button class="btn btn-outline-danger rounded-pill" type="submit">Search</button>
+              {% if search_query %}
+              <button class="btn btn-danger btn-sm ms-2" id="clearSearchButton">Clear Search</button>
+              {% endif %}
+            </form>
+          </div>
+          <!-- <div class="text-center">
+            <h3 id="searchTitle">{{ search_query }}</h3>
+            <p id="searchCount">{{ search_results|length }} item(s) found</p>
+            {% if search_results|length == 0 %}
+              <p id="noSearchResults">Sorry. No Search Found</p>
+            {% else %}
+              <p id="noSearchResults" style="display: none;">Sorry. No Search Found</p>
+            {% endif %}
+          </div> -->
+          <hr>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Distress Detected</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="historyLogsTableBody">
+              <!-- Data rows will be inserted here -->
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-danger btn-primary" id="clearLogsButton">Clear All Logs</button>
+          </div>
+          <hr>
+          <h3>Download History Logs</h3>
+          <form id="downloadForm">
+            <label for="fromDate">From:</label>
+            <input type="date" id="fromDate" name="from_date" required>
+            <label for="toDate">To: </label>
+            <input type="date" id="toDate" name="to_date" required>
+            <button type="submit" class="btn btn-danger btn-primary">Download PDF</button>
+          </form>
+    </div>
+    </div>
+    </div>
+    </div>
+      
+      <!-- Footer -->
+      <footer class="w3-container w3-padding-16 w3-light-grey">
+        <p class="footer-text">© 2023 Chic Web Application. All rights reserved.</p>
+        <p class="footer-text">This web application is for research purposes only. "Automated Bioacoustics: Recognition of Chicken Distress Vocalizations"</p>
+      </footer>
+    </div>
+    
+    </div>
+    <!-- JavaScript Imports -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/cage1.js') }}"></script>
+<script src="{{ url_for('static', filename='js/backtotopbutton.js') }}"></script>
+<script src="{{ url_for('static', filename='js/datetime.js') }}"></script>
+<script src="{{ url_for('static', filename='js/startrecording.js') }}"></script>
+<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chic Web App</title>
+    <link rel="icon" href="{{ url_for('static', filename='chic_logo.png', _external=True) }}" type="image/png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Coiny&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>    
+    
+    
+
+    <style>
+    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+
+    </style>
+    </head>
+<body>
+  <a id="backtotopbutton"></a>
+
+  <nav class="navbar navbar-expand-custom navbar-mainbg">
+    <div class="navbar-brand-container">
+      <img class="logo" style="margin-right: 3px;" src="{{ url_for('static', filename='chic_logo.png', _external=True) }}" alt="Logo">
+      <a class="navbar-brand" href="#">Automated Chicken Distress Detector</a>
+    </div>    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <div class="hori-selector">
+          <div class="left"></div>
+          <div class="right"></div>
+        </div>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);"><i class="fa fa-dashboard"></i>Dashboard</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="history.html"><i class="fa fa-list"></i>History Logs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);"><i class="fa fa-calendar"></i>Calendar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);"><i class="fa fa-info"></i>About</a>
+        </li>
+        <span class="w3-bar-item w3-right">
+          <label class="switch" style="display: inline-block; vertical-align: middle; margin-bottom: 10px;">
+              <input type="checkbox" id="startAudioButton">
+              <span class="slider round"></span>
+          </label>
+          </span>
+      </ul>
+    </div>
+  </nav>
+
+
+                                  <script>
+                                    // ---------Responsive-navbar-active-animation-----------
+                      function test() {
+                        var tabsNewAnim = $("#navbarSupportedContent");
+                        var selectorNewAnim = $("#navbarSupportedContent").find("li").length;
+                        var activeItemNewAnim = tabsNewAnim.find(".active");
+                        var activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
+                        var activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
+                        var itemPosNewAnimTop = activeItemNewAnim.position();
+                        var itemPosNewAnimLeft = activeItemNewAnim.position();
+                        $(".hori-selector").css({
+                          top: itemPosNewAnimTop.top + "px",
+                          left: itemPosNewAnimLeft.left + "px",
+                          height: activeWidthNewAnimHeight + "px",
+                          width: activeWidthNewAnimWidth + "px"
+                        });
+                        $("#navbarSupportedContent").on("click", "li", function (e) {
+                          $("#navbarSupportedContent ul li").removeClass("active");
+                          $(this).addClass("active");
+                          var activeWidthNewAnimHeight = $(this).innerHeight();
+                          var activeWidthNewAnimWidth = $(this).innerWidth();
+                          var itemPosNewAnimTop = $(this).position();
+                          var itemPosNewAnimLeft = $(this).position();
+                          $(".hori-selector").css({
+                            top: itemPosNewAnimTop.top + "px",
+                            left: itemPosNewAnimLeft.left + "px",
+                            height: activeWidthNewAnimHeight + "px",
+                            width: activeWidthNewAnimWidth + "px"
+                          });
+                        });
+                      }
+                      $(document).ready(function () {
+                        setTimeout(function () {
+                          test();
+                        });
+                      });
+                      $(window).on("resize", function () {
+                        setTimeout(function () {
+                          test();
+                        }, 500);
+                      });
+                      $(".navbar-toggler").click(function () {
+                        $(".navbar-collapse").slideToggle(300);
+                        setTimeout(function () {
+                          test();
+                        });
+                      });
+
+                      // --------------add active class-on another-page move----------
+                      jQuery(document).ready(function ($) {
+                        // Get current path and find target link
+                        var path = window.location.pathname.split("/").pop();
+
+                        // Account for home page with empty path
+                        if (path == "") {
+                          path = "index.html";
+                        }
+
+                        var target = $('#navbarSupportedContent ul li a[href="' + path + '"]');
+                        // Add active class to target link
+                        target.parent().addClass("active");
+                      });
+
+                      // Add active class on another page linked
+                      // ==========================================
+                      // $(window).on('load',function () {
+                      //     var current = location.pathname;
+                      //     console.log(current);
+                      //     $('#navbarSupportedContent ul li a').each(function(){
+                      //         var $this = $(this);
+                      //         // if the current path is like this link, make it active
+                      //         if($this.attr('href').indexOf(current) !== -1){
+                      //             $this.parent().addClass('active');
+                      //             $this.parents('.menu-submenu').addClass('show-dropdown');
+                      //             $this.parents('.menu-submenu').parent().addClass('active');
+                      //         }else{
+                      //             $this.parent().removeClass('active');
+                      //         }
+                      //     })
+                      // });
+                                  </script>
+
+  <!-- Main Content -->
+  <div class="main-content">
+      <span class="w3-bar-item" style="color: rgb(0, 0, 0)";>
+    <h2 style="color: rgb(0, 0, 0); font-size: 20px;"><b><i class="fa fa-dashboard"></i>DASHBOARD</b></h2>
+    <div id="datetime" style:></div></span>
+    <hr>
+    <div class="w3-third">
+      <div class="elevated-container">
+        <h5>General Distress Proportion</h5>
+        <div id="pieChartLoading" class="loading-message">Loading... Please wait.</div>
+        <canvas id="pieChart" width="100" height="100"></canvas>
+      </div>
+    </div>
+    <div class="w3-twothird">
+      <div class="elevated-container">
+        <h5>Specific Distress Detection Rates per Cage</h5>
+        <div id="circleCanvasLoading" class="loading-message">Loading... Please wait.</div>
+        <canvas id="circleCanvas" width="1000" height="190"></canvas>
+      </div>
+    </div>
+    <div class="w3-twothird">
+      <div class="elevated-container">
+        <h5>Real-time Chicken Distress Indicator</h5>
+        <div class="w3-half">
+          <div class="elevated-container">
+            <h3>CAGE 1</h3>
+            <h3 style = "font-size: medium;">Current Chicken Status:</h3>
+            <div id="result" style="font-size: 18px; font-weight: bold; color: red;">Loading...</div>
+          </div>
+        </div>
+        <div class="w3-half">
+          <div class="elevated-container">
+            <h3>CAGE 2</h3>
+            <h3 style = "font-size: medium;">Current Chicken Status:</h3>
+            <div id="result2" style="font-size: 18px; font-weight: bold; color: red;">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>    
+    
+    <script>// Simulate loading
+      setTimeout(function() {
+        var lineChartLoading = document.getElementById("lineChartLoading");
+        var pieChartLoading = document.getElementById("pieChartLoading");
+        var circleCanvasLoading = document.getElementById("circleCanvasLoading");
+      
+        lineChartLoading.style.display = "none"; // Hide loading message
+        pieChartLoading.style.display = "none"; // Hide loading message
+        circleCanvasLoading.style.display = "none"; // Hide loading message
+      
+        // Put your canvas rendering code here
+      }, 20000); // Adjust the delay time as needed
+      </script>
+<div class="w3-half">-
+  <div class="elevated-container">
+    <h2>Cage 1 Audio Analysis</h2>
+    <div class="canvas-container">
+      <canvas id="waveformCanvas" width="500" height="150" style="display: block; margin: 0 auto;"></canvas>
+      <div class="w3-right">
+        <div id="waveformValues"></div>
+      </div>
+    </div>
+
+    <div class="canvas-container">
+      <canvas id="chromagramCanvas" width="500" height="150" style="display: block; margin: 0 auto;"></canvas>
+      <div class="w3-right">
+        <div id="chromagramValues"></div>
+      </div>
+    </div>
+
+    <div class="canvas-container">
+      <canvas id="spectralCanvas" width="500" height="150" style="display: block; margin: 0 auto;"></canvas>
+      <div class="w3-right">
+        <div id="spectralValues"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="w3-half">
+  <div class="elevated-container">
+    <h2>Cage 2 Audio Analysis</h2>
+    <div class="canvas-container">
+      <canvas id="waveformCanvas2" width="500" height="150" style="display: block; margin: 0 auto;"></canvas>
+      <div class="w3-right">
+        <div id="waveformValues2"></div>
+      </div>
+    </div>
+
+    <div class="canvas-container">
+      <canvas id="chromagramCanvas2" width="500" height="150" style="display: block; margin: 0 auto;"></canvas>
+      <div class="w3-right">
+        <div id="chromagramValues2"></div>
+      </div>
+    </div>
+
+    <div class="canvas-container">
+      <canvas id="spectralCanvas2" width="500" height="150" style="display: block; margin: 0 auto;"></canvas>
+      <div class="w3-right">
+        <div id="spectralValues2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+        <div class="w3-container">
+                  <div class="container">
+                      <h2 style="color: rgba(0, 0, 0, 0.767); font-family: 'Raleway, sans-serif'; font-weight: bold; margin-bottom: 5px;">Distress Details</h2>
+                      <p><span style="font-style: italic;">Understanding a chicken's situation is crucial for ensuring their well-being, safety, and productivity. It enables proactive care, timely intervention, and preventive measures, contributing to a harmonious and healthy flock. Knowledge of their environment, behavior, and social dynamics fosters responsible ownership, ethical treatment, and <b>sustainable practices</b>, ultimately enhancing the overall quality of life for these animals.</span></p>
+
+      <div class="projcard-container">
+    
+        <div class="projcard projcard-blue">
+          <div class="projcard-innerbox">
+            <img class="projcard-img" src="https://qph.cf2.quoracdn.net/main-qimg-35e780628a0ad0c0adacd8b92c7d5d31" />
+            <div class="projcard-textbox">
+              <div class="projcard-title">Chicken is Disturbed.</div>
+              <div class="projcard-subtitle">Chickens can suffer from disturbances arising from various factors, including their environment, social interactions, and physiological conditions, which can adversely affect their well-being.</div>
+              <div class="projcard-bar"></div>
+              <div class="projcard-description"><li>Sudden changes, overcrowded living conditions, and disruptions in their social hierarchy can lead to stress and discomfort. Proper care, consistent environments, and proactive strategies are essential to alleviate distress. 
+                Measures include minimizing abrupt changes, maintaining secure housing, enriching their surroundings, and responding promptly to signs of distress.
+                By implementing these measures, chicken owners can create a harmonious and tranquil environment, promoting the overall contentment and welfare of their flock.</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="projcard projcard-red">
+          <div class="projcard-innerbox">
+            <img class="projcard-img" src="https://fluxconsole.com/files/item/484/62722/Chicken-Predator-Coyote.jpg" />
+            <div class="projcard-textbox">
+              <div class="projcard-title">Chicken is in Danger.</div>
+              <div class="projcard-subtitle">Chickens are highly sensitive to threats and can feel distressed when faced with potential dangers.</div>
+              <div class="projcard-bar"></div>
+              <div class="projcard-description">Predators like foxes, hawks, and raccoons can evoke fear among chickens, even if not directly encountered.
+                Quick movements or perceived threats from humans or other animals can trigger strong stress reactions in chickens, causing anxious behavior.
+                  To help chickens feel safer, provide secure housing, proper fencing, and effective predator management strategies to create a reassuring and protected environment.</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="projcard projcard-green">
+          <div class="projcard-innerbox">
+            <img class="projcard-img" src="https://ogden_images.s3.amazonaws.com/www.iamcountryside.com/images/sites/3/2022/10/13162806/aggressive-rooster.jpg" />
+            <div class="projcard-textbox">
+              <div class="projcard-title">Chicken is Threatened.</div>
+              <div class="projcard-subtitle">Chickens are sensitive and can perceive threats, which trigger behavioral and physiological reactions.</div>
+              <div class="projcard-bar"></div>
+              <div class="projcard-description">Aggressive behavior among chickens, sudden disturbances, changes in routine, and living conditions can make them feel threatened. This stress affects their health, egg production, and social interactions. To address this, caregivers should maintain a calm environment, handle chickens properly, and provide enough space and resources. Social disruptions can be managed by separating aggressive individuals and offering distractions.
+                Minimizing sudden disturbances, gradually introducing changes, and maintaining a consistent routine help chickens adapt. Providing comfort, shelter, and stability also enhance their well-being. By observing behavior and making adjustments, caregivers can create a reassuring environment and ensure the welfare of their chickens.</div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+  </div>      
+<script>
+  document.querySelectorAll(".projcard-description").forEach(function(box) {
+    $clamp(box, {clamp: 6});
+  });</script>
+        <!-- Footer -->
+        <footer class="w3-container w3-padding-16 w3-light-grey">
+          <p class="footer-text">© 2023 Chic Web Application. All rights reserved.</p>
+          <p class="footer-text">This web application is for research purposes only. "Automated Bioacoustics: Recognition of Chicken Distress Vocalizations"</p>
+        </footer>
+      </div>
+      
+      </div>
+<!-- JavaScript Imports -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/cage1.js') }}"></script>
+<script src="{{ url_for('static', filename='js/backtotopbutton.js') }}"></script>
+<script src="{{ url_for('static', filename='js/datetime.js') }}"></script>
+<script src="{{ url_for('static', filename='js/startrecording.js') }}"></script>
+<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+
+</body>
+</html>

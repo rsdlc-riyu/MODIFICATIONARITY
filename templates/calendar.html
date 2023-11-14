@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chic Web App</title>
+    <link rel="icon" href="{{ url_for('static', filename='chic_logo.png', _external=True) }}" type="image/png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Coiny&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>    
+    
+    
+
+    <style>
+    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+
+    </style>
+    </head>
+<body>
+  <a id="backtotopbutton"></a>
+
+  <nav class="navbar navbar-expand-custom navbar-mainbg">
+    <div class="navbar-brand-container">
+      <img class="logo" style="margin-right: 3px;" src="{{ url_for('static', filename='chic_logo.png', _external=True) }}" alt="Logo">
+      <a class="navbar-brand" href="#">Automated Chicken Distress Detector</a>
+    </div>    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <div class="hori-selector">
+          <div class="left"></div>
+          <div class="right"></div>
+        </div>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);"><i class="fa fa-dashboard"></i>Dashboard</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="history.html"><i class="fa fa-list"></i>History Logs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);"><i class="fa fa-calendar"></i>Calendar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);"><i class="fa fa-info"></i>About</a>
+        </li>
+        <span class="w3-bar-item w3-right">
+          <label class="switch" style="display: inline-block; vertical-align: middle; margin-bottom: 10px;">
+              <input type="checkbox" id="startAudioButton">
+              <span class="slider round"></span>
+          </label>
+          </span>
+      </ul>
+    </div>
+  </nav>
+
+
+                                  <script>
+                                    // ---------Responsive-navbar-active-animation-----------
+                      function test() {
+                        var tabsNewAnim = $("#navbarSupportedContent");
+                        var selectorNewAnim = $("#navbarSupportedContent").find("li").length;
+                        var activeItemNewAnim = tabsNewAnim.find(".active");
+                        var activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
+                        var activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
+                        var itemPosNewAnimTop = activeItemNewAnim.position();
+                        var itemPosNewAnimLeft = activeItemNewAnim.position();
+                        $(".hori-selector").css({
+                          top: itemPosNewAnimTop.top + "px",
+                          left: itemPosNewAnimLeft.left + "px",
+                          height: activeWidthNewAnimHeight + "px",
+                          width: activeWidthNewAnimWidth + "px"
+                        });
+                        $("#navbarSupportedContent").on("click", "li", function (e) {
+                          $("#navbarSupportedContent ul li").removeClass("active");
+                          $(this).addClass("active");
+                          var activeWidthNewAnimHeight = $(this).innerHeight();
+                          var activeWidthNewAnimWidth = $(this).innerWidth();
+                          var itemPosNewAnimTop = $(this).position();
+                          var itemPosNewAnimLeft = $(this).position();
+                          $(".hori-selector").css({
+                            top: itemPosNewAnimTop.top + "px",
+                            left: itemPosNewAnimLeft.left + "px",
+                            height: activeWidthNewAnimHeight + "px",
+                            width: activeWidthNewAnimWidth + "px"
+                          });
+                        });
+                      }
+                      $(document).ready(function () {
+                        setTimeout(function () {
+                          test();
+                        });
+                      });
+                      $(window).on("resize", function () {
+                        setTimeout(function () {
+                          test();
+                        }, 500);
+                      });
+                      $(".navbar-toggler").click(function () {
+                        $(".navbar-collapse").slideToggle(300);
+                        setTimeout(function () {
+                          test();
+                        });
+                      });
+
+                      // --------------add active class-on another-page move----------
+                      jQuery(document).ready(function ($) {
+                        // Get current path and find target link
+                        var path = window.location.pathname.split("/").pop();
+
+                        // Account for home page with empty path
+                        if (path == "") {
+                          path = "index.html";
+                        }
+
+                        var target = $('#navbarSupportedContent ul li a[href="' + path + '"]');
+                        // Add active class to target link
+                        target.parent().addClass("active");
+                      });
+
+                      // Add active class on another page linked
+                      // ==========================================
+                      // $(window).on('load',function () {
+                      //     var current = location.pathname;
+                      //     console.log(current);
+                      //     $('#navbarSupportedContent ul li a').each(function(){
+                      //         var $this = $(this);
+                      //         // if the current path is like this link, make it active
+                      //         if($this.attr('href').indexOf(current) !== -1){
+                      //             $this.parent().addClass('active');
+                      //             $this.parents('.menu-submenu').addClass('show-dropdown');
+                      //             $this.parents('.menu-submenu').parent().addClass('active');
+                      //         }else{
+                      //             $this.parent().removeClass('active');
+                      //         }
+                      //     })
+                      // });
+                                  </script>
+
+<div class="w3-panel">
+    <div class="w3-row-padding" style="margin: 0 -16px">
+        <div class="w3-twothird">
+            <div class="elevated-container audio-analysis-container">
+              <h3 style="color: rgba(0, 0, 0, 0.767); font-family: 'San Francisco', sans-serif; font-weight: bold; margin-bottom: 5px;">Chicken Physical Observation Calendar</h3>
+                    <h5><i>Click on the date to input observation.</i></h5>
+                <div class="elevated-container audio-analysis-sub-subcontainer">
+                    <div id="calendar"></div>
+                    <div id="observationModal" class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Observation</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form id="observationForm">
+                                    <div class="modal-body">
+                                        <h1>Chicken Observation Form</h1>
+                                        <!-- Observer Information -->
+                                        <h2>Observer Information:</h2>
+                                        <div class="form-group">
+                                            <label for="observerName">Name:</label>
+                                            <input type="text" id="observerName" name="observerName" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="date">Date:</label>
+                                            <input type="text" id="date" name="date" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="time">Time:</label>
+                                            <input type="text" id="time" name="time" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="location">Location:</label>
+                                            <input type="text" id="location" name="location" class="form-control" required>
+                                        </div>
+  
+                                        <!-- Chicken Details -->
+                                        <h2>Chicken Details:</h2>
+                                        <div class="form-group">
+                                            <label for="chickenID">Chicken ID/Name:</label>
+                                            <input type="text" id="chickenID" name="chickenID" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="breed">Breed:</label>
+                                            <input type="text" id="breed" name="breed" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="age">Age:</label>
+                                            <input type="text" id="age" name="age" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="colorMarkings">Color/Markings:</label>
+                                            <input type="text" id="colorMarkings" name="colorMarkings" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="generalHealth">General Health:</label>
+                                            <div>
+                                                <input type="checkbox" id="excellentHealth" name="generalHealth" value="Excellent">
+                                                <label for="excellentHealth">Excellent</label>
+  
+                                                <input type="checkbox" id="goodHealth" name="generalHealth" value="Good">
+                                                <label for="goodHealth">Good</label>
+  
+                                                <input type="checkbox" id="fairHealth" name="generalHealth" value="Fair">
+                                                <label for="fairHealth">Fair</label>
+  
+                                                <input type="checkbox" id="poorHealth" name="generalHealth" value="Poor">
+                                                <label for="poorHealth">Poor</label>
+                                            </div>
+                                        </div>
+  
+                                        <!-- Physical Observations -->
+                                        <h2>Physical Observations:</h2>
+  
+                                        <!-- Plumage -->
+                                        <h3>Plumage:</h3>
+                                        <div class="form-group">
+                                            <label for="plumageColor">Color:</label>
+                                            <div>
+                                                <input type="checkbox" id="whitePlumage" name="plumageColor" value="White">
+                                                <label for="whitePlumage">White</label>
+  
+                                                <input type="checkbox" id="brownPlumage" name="plumageColor" value="Brown">
+                                                <label for="brownPlumage">Brown</label>
+  
+                                                <input type="checkbox" id="blackPlumage" name="plumageColor" value="Black">
+                                                <label for="blackPlumage">Black</label>
+  
+                                                <input type="checkbox" id="otherPlumage" name="plumageColor" value="Other">
+                                                <label for="otherPlumage">Other (Specify: <input type="text" id="otherPlumageSpecified" name="otherPlumageSpecified" class="form-control">)</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="plumageCondition">Condition:</label>
+                                            <div>
+                                                <input type="checkbox" id="cleanPlumage" name="plumageCondition" value="Clean and well-groomed">
+                                                <label for="cleanPlumage">Clean and well-groomed</label>
+  
+                                                <input type="checkbox" id="dirtyPlumage" name="plumageCondition" value="Dirty or matted">
+                                                <label for="dirtyPlumage">Dirty or matted</label>
+  
+                                                <input type="checkbox" id="moltingPlumage" name="plumageCondition" value="Molting">
+                                                <label for="moltingPlumage">Molting</label>
+                                            </div>
+                                        </div>
+  
+                                        <!-- Comb and Wattles -->
+                                        <h3>Comb and Wattles:</h3>
+                                        <div class="form-group">
+                                            <label for="combColor">Color:</label>
+                                            <div>
+                                                <input type="checkbox" id="redComb" name="combColor" value="Red">
+                                                <label for="redComb">Red</label>
+  
+                                                <input type="checkbox" id="pinkComb" name="combColor" value="Pink">
+                                                <label for="pinkComb">Pink</label>
+  
+                                                <input type="checkbox" id="otherCombColor" name="combColor" value="Other">
+                                                <label for="otherCombColor">Other (Specify: <input type="text" id="otherCombColorSpecified" name="otherCombColorSpecified" class="form-control">)</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="combSize">Size:</label>
+                                            <div>
+                                                <input type="checkbox" id="normalCombSize" name="combSize" value="Normal">
+                                                <label for="normalCombSize">Normal</label>
+  
+                                                <input type="checkbox" id="swollenCombSize" name="combSize" value="Swollen">
+                                                <label for="swollenCombSize">Swollen</label>
+  
+                                                <input type="checkbox" id="shrunkenCombSize" name="combSize" value="Shrunken">
+                                                <label for="shrunkenCombSize">Shrunken</label>
+                                            </div>
+                                        </div>
+  
+                                        <!-- Eyes -->
+                                        <h3>Eyes:</h3>
+                                        <div class="form-group">
+                                            <label for="eyeColor">Color:</label>
+                                            <div>
+                                                <input type="checkbox" id="brightClearEyes" name="eyeColor" value="Bright and clear">
+                                                <label for="brightClearEyes">Bright and clear</label>
+  
+                                                <input type="checkbox" id="cloudyEyes" name="eyeColor" value="Cloudy">
+                                                <label for="cloudyEyes">Cloudy</label>
+  
+                                                <input type="checkbox" id="dischargeEyes" name="eyeColor" value="Discharge">
+                                                <label for="dischargeEyes">Discharge</label>
+                                            </div>
+                                        </div>
+  
+                                        <!-- Legs and Feet -->
+                                        <h3>Legs and Feet:</h3>
+                                        <div class="form-group">
+                                            <label for="scaleCondition">Scale Condition:</label>
+                                            <div>
+                                                <input type="checkbox" id="smoothScale" name="scaleCondition" value="Smooth">
+                                                <label for="smoothScale">Smooth</label>
+  
+                                                <input type="checkbox" id="roughScale" name="scaleCondition" value="Rough">
+                                                <label for="roughScale">Rough</label>
+  
+                                                <input type="checkbox" id="scalyScale" name="scaleCondition" value="Scaly">
+                                                <label for="scalyScale">Scaly</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="toeCondition">Toe Condition:</label>
+                                            <div>
+                                                <input type="checkbox" id="normalToe" name="toeCondition" value="Normal">
+                                                <label for="normalToe">Normal</label>
+  
+                                                <input type="checkbox" id="swollenToe" name="toeCondition" value="Swollen">
+                                                <label for="swollenToe">Swollen</label>
+  
+                                                <input type="checkbox" id="deformedToe" name="toeCondition" value="Deformed">
+                                                <label for="deformedToe">Deformed</label>
+                                            </div>
+                                        </div>
+  
+                                        <!-- Behavior Observations -->
+                                        <h3>Behavior Observations:</h3>
+                                        <div class="form-group">
+                                            <label for="activityLevel">Activity Level:</label>
+                                            <div>
+                                                <input type="checkbox" id="activeBehavior" name="activityLevel" value="Active">
+                                                <label for="activeBehavior">Active</label>
+  
+                                                <input type="checkbox" id="restlessBehavior" name="activityLevel" value="Restless">
+                                                <label for="restlessBehavior">Restless</label>
+  
+                                                <input type="checkbox" id="lethargicBehavior" name="activityLevel" value="Lethargic">
+                                                <label for="lethargicBehavior">Lethargic</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="eatingHabits">Eating Habits:</label>
+                                            <div>
+                                                <input type="checkbox" id="normalEating" name="eatingHabits" value="Normal">
+                                                <label for="normalEating">Normal</label>
+  
+                                                <input type="checkbox" id="decreasedEating" name="eatingHabits" value="Decreased">
+                                                <label for="decreasedEating">Decreased</label>
+  
+                                                <input type="checkbox" id="increasedEating" name="eatingHabits" value="Increased">
+                                                <label for="increasedEating">Increased</label>
+                                            </div>
+                                        </div>
+  
+                                        <!-- Additional Notes -->
+                                        <h2>Additional Notes:</h2>
+                                        <textarea id="additionalNotes" name="additionalNotes" class="form-control"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" id="saveObservation" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-16 w3-light-grey">
+    <p class="footer-text">© 2023 Chic Web Application. All rights reserved.</p>
+    <p class="footer-text">This web application is for research purposes only. "Automated Bioacoustics: Recognition of Chicken Distress Vocalizations"</p>
+  </footer>
+</div>
+
+</div>
+
+  <!-- JavaScript Imports -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/cage1.js') }}"></script>
+<script src="{{ url_for('static', filename='js/backtotopbutton.js') }}"></script>
+<script src="{{ url_for('static', filename='js/datetime.js') }}"></script>
+<script src="{{ url_for('static', filename='js/startrecording.js') }}"></script>
+<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+
+</body>
+</html>
